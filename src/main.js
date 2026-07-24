@@ -10,10 +10,7 @@ class BeginningScene extends Phaser.Scene {
             frameWidth: 44,
             frameHeight: 50
         });
-        this.load.spritesheet('ground_sheet', 'assets/ground.png', {
-            frameWidth: 44,
-            frameHeight: 50
-        });
+        this.load.image('ground_sheet', 'assets/ground.png'); //changing ts to a simple image instead of spritesheet
     }
 
     create() {
@@ -23,22 +20,24 @@ class BeginningScene extends Phaser.Scene {
         // dino animation
         this.anims.create({
             key: 'dino_run',
-            frames: this.anims.generateFrameNumbers('dino_sheet', { start: 0, end:3  }),
+            frames: this.anims.generateFrameNumbers('dino_sheet', { start: 0, end: 3 }),
             frameRate: 17,
             repeat: -1
         });
 
+        // Add Ground as a TileSprite
+        this.ground = this.add.tileSprite(
+            this.scale.width / 2, // Center X
+            320,                  // Y position
+            this.scale.width,     // Width matches screen exactly
+            12,                   // Height of texture
+            'ground_sheet'
+        );
+
         // Add the sprite at X: 400, Y: 300 using frame 0
-        let dino = this.add.sprite(400, 300, 'dino_sheet', 0);
+        let dino = this.add.sprite(200, 300, 'dino_sheet', 0);
 
-
-        document.addEventListener('keydown', (event) => {
-        });
-
-        const ground = this.add.sprite(400, 320, 'ground_sheet', 0);
         let isJumping = false;
-
-        
 
         this.input.keyboard.on('keydown-SPACE', () => {
             if (!isJumping) {
@@ -58,11 +57,16 @@ class BeginningScene extends Phaser.Scene {
                 });
             }
         });
+
         // Play the animation
         dino.play('dino_run');
     }
-}
 
+    update() {
+        // Shift the ground pattern left by 6 pixels every single frame
+        this.ground.tilePositionX += 6;
+    }
+}
 
 // config + physics stuff
 const config = {
