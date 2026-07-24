@@ -10,6 +10,10 @@ class BeginningScene extends Phaser.Scene {
             frameWidth: 44,
             frameHeight: 50
         });
+        this.load.spritesheet('ground_sheet', 'assets/ground.png', {
+            frameWidth: 44,
+            frameHeight: 50
+        });
     }
 
     create() {
@@ -26,6 +30,8 @@ class BeginningScene extends Phaser.Scene {
 
         // Add the sprite at X: 400, Y: 300 using frame 0
         const dino = this.add.sprite(400, 300, 'dino_sheet', 0);
+
+        const ground = this.add.sprite(400, 320, 'ground_sheet', 0);
         
         // Play the animation
         dino.play('dino_run');
